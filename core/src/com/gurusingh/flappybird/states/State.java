@@ -26,5 +26,6 @@ public abstract class State
     protected abstract void handleInput();
     public abstract void update(float dt);              // dt - delta time, diff in frame render
     public abstract void render(SpriteBatch sb);        // sb - container for render everything on screen
+    public abstract void dispose();
 
 }
