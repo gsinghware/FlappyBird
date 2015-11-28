@@ -3,18 +3,19 @@ package com.gurusingh.flappybird.States;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gurusingh.flappybird.FlappyBird;
+import com.gurusingh.flappybird.sprites.Bird;
 
 /**
  * Created by gsingh on 11/26/15.
  */
 public class PlayState extends State
 {
-    private Texture bird;
+    private Bird bird;
 
     public PlayState(GameStateManager gsm)
     {
         super(gsm);
-        bird = new Texture("bird.png");
+        this.bird = new Bird(50, 300);
         this.cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
     }
 
@@ -27,7 +28,8 @@ public class PlayState extends State
     @Override
     public void update(float dt)
     {
-
+        handleInput();
+        this.bird.update(dt);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class PlayState extends State
     {
         sb.setProjectionMatrix(this.cam.combined);
         sb.begin();
-        sb.draw(this.bird, 50, 50);
+        sb.draw(this.bird.getBird(), this.bird.getPosition().x, this.bird.getPosition().y);
         sb.end();
     }
 
