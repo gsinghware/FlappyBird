@@ -22,9 +22,16 @@ public class Bird
 
     public void update(float dt)
     {
+        if (this.position.y > 0)
+            this.velocity.add(0, this.GRAVITY, 0);
+
         this.velocity.add(0, GRAVITY, 0);
         this.velocity.scl(dt);
         this.position.add(0, this.velocity.y, 0);
+
+        if (this.position.y < 0)
+            this.position.y = 0;
+
         this.velocity.scl(1/dt);
     }
 
@@ -33,7 +40,10 @@ public class Bird
         return this.position;
     }
 
-    public Texture getBird() {
-        return bird;
+    public Texture getBird() { return bird; }
+
+    public void jump()
+    {
+        this.velocity.y = 250;
     }
 }
