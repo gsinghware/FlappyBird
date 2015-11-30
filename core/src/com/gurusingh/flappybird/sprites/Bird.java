@@ -35,15 +35,8 @@ public class Bird
         this.velocity.scl(1/dt);
     }
 
-    public Vector3 getPosition()
-    {
-        return this.position;
-    }
-
+    public Vector3 getPosition() { return this.position; }
     public Texture getBird() { return bird; }
+    public void jump() { this.velocity.y = 250; }
 
-    public void jump()
-    {
-        this.velocity.y = 250;
-    }
 }
