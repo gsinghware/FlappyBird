@@ -1,6 +1,8 @@
 package com.gurusingh.flappybird.States;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,9 +18,12 @@ public class PlayState extends State
 {
     private static final int TUBE_SPACING = 125;
     private static final int TUBE_COUNT = 4;
+    private static final int GROUND_Y_OFFSET = -30;
 
     private Bird bird;
     private Texture bg;
+    private Texture ground;
+    private Vector2 groundPos1, groundPos2;
 
     private Array<Tube> tubes;
 
@@ -34,6 +39,10 @@ public class PlayState extends State
         {
             this.tubes.add(new Tube(i * (TUBE_SPACING + Tube.TUBE_WIDTH)));
         }
+
+        this.ground = new Texture("ground.png");
+        this.groundPos1 = new Vector2(this.cam.position.x - this.cam.viewportWidth/2, GROUND_Y_OFFSET);
+        this.groundPos2 = new Vector2((this.cam.position.x - this.cam.viewportWidth/2) + this.ground.getWidth(), GROUND_Y_OFFSET);
     }
 
     @Override
@@ -53,10 +62,13 @@ public class PlayState extends State
 
         this.cam.position.x = this.bird.getPosition().x + 80;
 
-        for (Tube tube : this.tubes)
+        for (Tube tube : this.tubes) {
             if (this.cam.position.x - (this.cam.viewportWidth / 2) > tube.getPosTopTube().x + tube.getTopTube().getWidth())
                 tube.reposition(tube.getPosTopTube().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
 
+            if (tube.collide(bird.getBounds()))
+                gsm.set(new PlayState(gsm));
+        }
         this.cam.update();
 
     }
@@ -74,12 +86,22 @@ public class PlayState extends State
             sb.draw(tube.getTopTube(), tube.getPosTopTube().x, tube.getPosTopTube().y);
             sb.draw(tube.getBottomTube(), tube.getPosBotTube().x, tube.getPosBotTube().y);
         }
+
+        sb.draw(this.ground, this.groundPos1.x, this.groundPos1.y);
+        sb.draw(this.ground, this.groundPos2.x, this.groundPos2.y);
         sb.end();
     }
 
     @Override
     public void dispose()
     {
+        this.bg.dispose();
+        this.bird.dispose();
 
+        for (Tube tube : this.tubes)
+        {
+            tube.dispose();
+        }
     }
+
 }
