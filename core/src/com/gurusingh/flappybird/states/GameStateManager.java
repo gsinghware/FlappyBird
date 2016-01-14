@@ -32,13 +32,13 @@ public class GameStateManager
     // pop
     public void pop()
     {
-        this.states.pop();
+        this.states.pop().dispose();
     }
 
     // set
     public void set(State state)
     {
-        this.states.pop();
+        this.states.pop().dispose();
         this.states.push(state);
     }
 

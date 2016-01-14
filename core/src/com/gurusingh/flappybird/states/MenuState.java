@@ -29,8 +29,7 @@ public class MenuState extends State
     }
 
     @Override
-    public void update(float dt)
-    {
+    public void update(float dt) {
         this.handleInput();
     }
 
